@@ -4,7 +4,7 @@ const Props = defineProps({
   src: {
     type: String,
     required: true,
-    default:fallbackSrc
+    default: LoadingLoader
   }
 });
 
