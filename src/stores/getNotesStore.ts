@@ -1,25 +1,18 @@
 import {defineStore} from 'pinia'
 import api from "@/api";
-import type {PropType} from "vue";
+import type {Note} from "@/models/types/Note";
 
 const getToStore = async (params:{}) => {
-  // const res = await api.getNotes(params);
-  // const data = await res.data.json();
-  // notes.value = data.results;
   return await api.getNotes(params)
 }
 const getToStoreByID = async (params:{},id:number) => {
-  // const res = await api.getNotes(params);
-  // const data = await res.data.json();
-  // notes.value = data.results;
-
   return await api.getNotesByID(params,id)
 }
 
 export const useNotesStore = defineStore('notesStore', {
   state : ()=>({
     notes:[],
-    note: null,
+    note: {} as Note,
     loading:false,
     error:null
   }),
@@ -29,7 +22,8 @@ export const useNotesStore = defineStore('notesStore', {
       this.notes = []
       this.loading = true;
       try{
-        this.notes = await getToStore(params).then((res)=>res.data)
+        const response = await getToStore(params);
+        this.notes = response.data;
       }catch (error){
         alert(error)
       }finally {
@@ -37,11 +31,12 @@ export const useNotesStore = defineStore('notesStore', {
       }
     },
     async fetchNotesByID(params:{},id:number | undefined) {
-      this.note = null
+      this.note = {} as Note
       this.loading = true
       if(id)
         try {
-          this.note = await getToStoreByID(params,id).then((res)=>res.data)
+          const response= await getToStoreByID(params,id)
+          this.note = response.data;
         } catch (error) {
           alert(error)
         } finally {

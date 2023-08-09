@@ -1,24 +1,19 @@
-<script lang="ts">
+<script setup lang="ts">
 
 import type {Note} from "@/models/types/Note";
 import type {PropType} from "vue";
 import ImageWithFallback from "@/components/UI/ImageWithFallback.vue";
-export default {
-  name:'UiNoteElement',
-  components: {ImageWithFallback},
-  props:{
-    row: {
-      type: Object as PropType<Note>,
-      required:true,
-      default:()=>{}
-    }
-  },
-  data(){
-    return{
-      fallbackSrc: "src/assets/photos1.png"
-    }
-  },
-}
+import {RouteNames} from "@/router";
+import {ref} from "vue";
+
+const Props = defineProps({
+  row: {
+    type: Object as PropType<Note>,
+    required: true,
+    default:()=>{}
+  }
+})
+
 </script>
 
 <template>
@@ -26,24 +21,22 @@ export default {
   <div class="table-element">
     <div class="table-element__content">
 
-      <div class="table-element__content__title">
+      <div class="table-element__content-title">
         <div>{{row.title}}</div>
       </div>
 
-      <div class="table-element__content__preview">
+      <div class="table-element__content-preview">
         <div>{{row.preview}}</div>
       </div>
 
-      <div class="table-element__content__image" >
-        <image-with-fallback :fallback-src="fallbackSrc" :src="row.image"></image-with-fallback>
+      <div class="table-element__content-image" >
+        <image-with-fallback :src="row.image"></image-with-fallback>
       </div>
 
-        <router-link class="table-element__button" :to="`/notes/${row.id}`">view more</router-link>
+      <router-link class="table-element__button ui-button" :to='{ name: RouteNames.noteDetail, params: { id: row.id } }'>view more</router-link>
 
     </div>
-
   </div>
-
 </template>
 
 <style scoped lang="sass">
@@ -53,42 +46,22 @@ export default {
   flex-direction: column
   justify-content: center
   align-self: self-start
-
+  @media(max-width: 1024px)
+    .table-element
+      display: flex
+      justify-content: center
+      align-items: center
   &__content
     display: flex
     flex-direction: column
 
-    &__preview
+    &-preview
       flex-basis: 5rem
 
-    &__image
+    &-image
       flex-basis: 260px
 
+    &__title
+      display: flex
 
-
-  &__title
-    display: flex
-
-  &__button
-    display: flex
-    justify-content: center
-    text-decoration: none
-    width: 80px
-    align-self: center
-    border-radius: 3px
-    background-color: transparent
-    border: white 1px solid
-    color: white
-    cursor: pointer
-    transition: 0.3s
-
-  &__button:hover
-    background-color: white
-    color: black
-
-@media(max-width: 1024px)
-  .table-element
-    display: flex
-    justify-content: center
-    align-items: center
 </style>

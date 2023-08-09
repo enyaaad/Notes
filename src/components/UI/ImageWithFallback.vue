@@ -1,48 +1,39 @@
-<script lang="ts">
-import Loader from "@/components/UI/Loader.vue";
+<script setup lang="ts">
 
-export default {
-  components: {Loader},
-  props: {
-    src:{
-      type:String,
-      required:true,
-    },
-    fallbackSrc:{
-      type:String,
-      required: true,
-    },
-  },
-  data(){
-    return{
-      imageSource: this.src,
-      isLoading:true,
-      imageLoaded:false,
-      hasError: false,
-    };
-  },
-  computed: {
-    displayedImage(){
-      return this.hasError ? this.fallbackSrc : this.imageSource
-    }
-  },
-  methods: {
-    handleImageError(){
-      this.isLoading = false;
-      this.hasError = true;
-    },
-    handleImageLoad(){
-      this.isLoading = false;
-    }
-
+const Props = defineProps({
+  src: {
+    type: String,
+    required: true,
+    default:fallbackSrc
   }
+});
+
+import {onMounted, ref, toRefs} from "vue";
+import {computed} from "vue";
+import LoadingLoader from "@/components/UI/LoadingLoader.vue"
+import fallbackSrc from "@/assets/icons/mockImg.png"
+const imageSource = ref<string>(<string>Props.src)
+const isLoading = ref<boolean>(true)
+const hasError = ref<boolean>(false)
+
+
+
+let displayedImage = computed(() => {return hasError.value ? fallbackSrc : imageSource.value})
+
+const handleImageError = () => {
+  isLoading.value = false;
+  hasError.value = true;
+}
+
+const handleImageLoad = () => {
+  isLoading.value = false;
 }
 </script>
 
 <template>
   <div class="fallback-image">
-    <loader v-if="isLoading"></loader>
-    <img :src="displayedImage"  @load="handleImageLoad" @error="handleImageError" alt="loaded image"/>
+    <LoadingLoader v-if="isLoading"></LoadingLoader>
+    <img :src="displayedImage" @load="handleImageLoad" @error="handleImageError" alt=""/>
   </div>
 </template>
 

@@ -1,22 +1,18 @@
-<script lang="ts">
+<script setup lang="ts">
 import UiNoteElement from "@/components/UI/List/NoteElement.vue";
 
-export default {
-  name:'UiList',
-  components: {UiNoteElement},
-    props:{
-      elements:{
-        type:Array,
-        required:true,
-      }
-    }
-}
+const Props = defineProps({
+  elements: {
+    type: Array,
+    required: true,
+  }
+})
 
 </script>
 
 <template>
       <ui-note-element
-          v-for="element in elements"
+          v-for="element in Props.elements"
           :key="element.id"
           class="ui-table__card"
           :row="element"

@@ -1,58 +1,51 @@
-<script lang="ts">
-import UiPagination from "@/components/UI/Pagination.vue";
+<script setup lang="ts">
+import UiPagination from "@/components/UI/PaginationComponent.vue";
 import UiList from "@/components/UI/List/NoteList.vue";
+import {computed, ref} from "vue";
 
-export default {
-    name: 'ListContent',
-    components: {UiList, UiPagination},
+const page = ref<number>(1)
+const elemsOnPage = ref<number>(4)
 
-    props: {
-        data: {
-            type: Array,
-            required: true,
-        }
-    },
+const Props = defineProps({
+  data: {
+    type: Array,
+    required: true,
+  }
+})
 
-    data: () => ({
-        page: 1,
-        elemsOnPage: 4,
-    }),
+const pageCount = computed(() => {
+  return Math.ceil(searchedRows.value.length / elemsOnPage.value);
+})
 
-    computed: {
-        pageCount() {
-            return Math.ceil(this.searchedRows.length / this.elemsOnPage);
-        },
+const searchedRows = computed(() => {
+  if (Props.data)
+    return Props.data
+  return []
+})
 
-        searchedRows() {
-            if (this.data)
-                return this.data
+const paginatedRows = computed(() => {
+  const temp = page.value * elemsOnPage.value;
+  const pagination_offset = temp - elemsOnPage.value + 1;
 
-        },
+  return searchedRows.value.filter((row) => pagination_offset <= row.id && row.id <= temp);
 
-        paginatedRows() {
-            const temp = this.page * this.elemsOnPage;
-            const pagination_offset = temp - this.elemsOnPage + 1;
-
-            return this.searchedRows.filter((row) => pagination_offset <= row.id && row.id <= temp);
-        },
-    },
-}
+})
 </script>
 
 <template>
-    <div class="list-content">
+  <div class="list-content">
 
-        <div class="list-content__rows">
-            <ui-list :elements="paginatedRows"></ui-list>
-        </div>
-
-        <div class="list-content__paginator">
-            <ui-pagination :value="page"
-                           @update:value="value => page = value"
-                           :pages="pageCount"/>
-        </div>
-
+    <div class="list-content__rows">
+      <ui-list :elements="paginatedRows"></ui-list>
     </div>
+
+    <div class="list-content__paginator">
+      <ui-pagination :value="page"
+                     @update:value="value => page = value"
+                     :pages="pageCount"/>
+    </div>
+
+  </div>
 </template>
 
 <style scoped lang="sass">
@@ -63,28 +56,25 @@ export default {
   align-items: center
 
   &__rows
-      margin: 0
-      padding: 10px
-      max-width: 95vw
+    margin: 0
+    padding: 10px
+    max-width: 95vw
+    display: flex
+    flex-direction: row
+
+  @media(max-width: 1024px)
+    &__rows
       display: flex
+      flex-direction: column
+      justify-content: center
+  @media(max-width: 1440px)
+    &__rows
+      display: flex
+      flex-wrap: wrap
       flex-direction: row
 
-
   &__paginator
-      display: flex
-      justify-content: center
-
-
-@media (max-width: 1024px)
-    .list-content__rows
-        display: flex
-        flex-direction: column
-        justify-content: center
-@media (max-width: 1440px)
-    .list-content__rows
-        display: flex
-        flex-wrap: wrap
-        flex-direction: row
-
+    display: flex
+    justify-content: center
 
 </style>
