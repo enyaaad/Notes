@@ -5,7 +5,7 @@ import AppContent from "@/components/AppContent.vue";
 </script>
 
 <template>
-  <app-content></app-content>
+  <router-view></router-view>
 </template>
 
 <style scoped>

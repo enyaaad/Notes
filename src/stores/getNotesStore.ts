@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import api from "@/api";
+import type {PropType} from "vue";
 
 const getToStore = async (params:{}) => {
   // const res = await api.getNotes(params);
@@ -18,28 +19,28 @@ const getToStoreByID = async (params:{},id:number) => {
 export const useNotesStore = defineStore('notesStore', {
   state : ()=>({
     notes:[],
-    note:null,
+    note: null,
     loading:false,
     error:null
   }),
 
   actions:{
-    async fetchNotes(){
+    async fetchNotes(params:{}){
       this.notes = []
       this.loading = true;
       try{
-        this.notes = await getToStore({}).then((res)=>res.data)
+        this.notes = await getToStore(params).then((res)=>res.data)
       }catch (error){
         alert(error)
       }finally {
         this.loading = false
       }
     },
-    async fetchNotesByID(id:number) {
+    async fetchNotesByID(params:{},id:number) {
       this.note = null
       this.loading = true
       try {
-        this.note = await getToStoreByID({},id).then((res)=>res.data)
+        this.note = await getToStoreByID(params,id).then((res)=>res.data)
       } catch (error) {
         alert(error)
       } finally {

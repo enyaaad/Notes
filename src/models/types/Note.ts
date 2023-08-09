@@ -1,4 +1,4 @@
-export interface Note{
+ interface Note{
     id: string,
     createdAt: string,
     title: string,
@@ -9,6 +9,8 @@ export interface Note{
     variables?: { },
     query?: string,
 }
+export  const NoteObject: Partial<Note> = {};
+
 export const Mockup: Note[] = [
     {
         "id": "1",

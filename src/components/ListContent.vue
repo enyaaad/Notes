@@ -13,7 +13,7 @@ export default {
 
   data:()=>({
     page:1,
-    elemsOnPage:5,
+    elemsOnPage:4,
   }),
 
   computed: {
@@ -37,34 +37,34 @@ export default {
 </script>
 
 <template>
-  <div class="data-table">
+  <div class="list-table">
 
     <ui-list :elements="paginatedRows"></ui-list>
 
   </div>
 
-  <div class="data-table__paginator">
-    <ui-pagination v-model="page" v-model:model="page" :pages="pageCount"/>
+  <div class="list-table__paginator">
+    <ui-pagination :value="page"
+                   @update:value="value => page = value"
+                   :pages="pageCount"/>
   </div>
 
 </template>
 
 <style scoped>
-.btn {
-  border: none;
-  width: 100px;
-  height: 40px;
-  font-size: 14px;
-  margin: 0 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  background: #efefef;
+.list-table{
+  max-width: 1280px;
+  display: flex;
+  flex-direction: row;
 }
-.btn:hover {
-  opacity: 0.7;
+.list-table__paginator{
+  display: flex;
+  justify-content: center;
 }
-.btn_green {
-  background: #37df5c;
+@media(max-width: 1024px){
+  .list-table{
+    display: flex;
+    flex-direction: column;
+  }
 }
-
 </style>
