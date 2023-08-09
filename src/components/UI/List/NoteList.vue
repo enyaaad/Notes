@@ -24,5 +24,9 @@ export default {
 </template>
 
 <style scoped>
-
+@media (max-width: 1440px) {
+      .ui-table__card{
+            width: 45%;
+      }
+}
 </style>

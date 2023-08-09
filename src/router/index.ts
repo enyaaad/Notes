@@ -1,20 +1,38 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AppContent from "@/components/AppContent.vue";
 import NoteDetail from "@/components/NoteDetail.vue";
+import NotFound from "@/components/NotFound.vue";
+
+const RouteNames = {
+  "home": AppContent,
+  "noteDetail": NoteDetail,
+  "notFound": NotFound
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: AppContent
+      redirect: { path : "/home"},
+      children:[
+        {
+          path:"/home",
+          name: 'home',
+          component:()=> RouteNames.home
+        }
+      ]
     },
     {
       path: '/notes/:id',
-      name: 'postDetail',
-      component: NoteDetail,
+      name: 'noteDetail',
+      component: RouteNames.noteDetail,
       props:true,
+    },
+    {
+      path: "/:catchAll(.*)",
+      name: 'notFound',
+      component: RouteNames.notFound,
     },
   ]
 })

@@ -40,15 +40,21 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="fallback-image">
     <loader v-if="isLoading"></loader>
     <img :src="displayedImage"  @load="handleImageLoad" @error="handleImageError" alt="loaded image"/>
   </div>
 </template>
 
 <style scoped>
-img{
-  max-width: 300px;
-  margin-bottom: 10px;
+.fallback-image{
+    display: flex;
+    justify-content: center;
+    max-height: 100%
+}
+.fallback-image img{
+    height: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
 }
 </style>

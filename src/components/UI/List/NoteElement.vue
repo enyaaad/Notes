@@ -34,13 +34,11 @@ export default {
         <div>{{row.preview}}</div>
       </div>
 
-      <div class="table-element__content" style="flex-basis: 200px;">
+      <div class="table-element__content__image" >
         <image-with-fallback :fallback-src="fallbackSrc" :src="row.image"></image-with-fallback>
       </div>
 
-      <div>
         <router-link :data="row" class="table-element__button" :to="`/notes/${row.id}`">view more</router-link>
-      </div>
 
     </div>
 
@@ -63,10 +61,18 @@ export default {
     &__preview
       flex-basis: 5rem
 
+    &__image
+      flex-basis: 260px
+
+
+
   &__title
     display: flex
 
   &__button
+    display: flex
+    justify-content: center
+    text-decoration: none
     width: 80px
     align-self: center
     border-radius: 3px
@@ -79,6 +85,7 @@ export default {
   &__button:hover
     background-color: white
     color: black
+
 @media(max-width: 1024px)
   .table-element
     display: flex

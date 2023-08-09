@@ -5,14 +5,14 @@ const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
 })
 
-const getNotes = (params = {}) => axiosInstance.request({
+const getNotes = (params:{} = {}) => axiosInstance.request({
     method: "get",
     url: '/posts',
     params,
 })
-const getNotesByID = (params = {},id:number) => axiosInstance.request({
+const getNotesByID = (params:{} = {},id:number) => axiosInstance.request({
     method: "get",
-    url: `/posts/${{id}}`,
+    url: `/posts/${id}`,
     params,
 })
 
