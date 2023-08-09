@@ -3,7 +3,7 @@ import AppContent from "@/components/AppContent.vue";
 import NoteDetail from "@/components/NoteDetail.vue";
 import NotFound from "@/components/NotFound.vue";
 
-const RouteNames = {
+export const RouteNames = {
   "home": AppContent,
   "noteDetail": NoteDetail,
   "notFound": NotFound
@@ -27,7 +27,6 @@ const router = createRouter({
       path: '/notes/:id',
       name: 'noteDetail',
       component: RouteNames.noteDetail,
-      props:true,
     },
     {
       path: "/:catchAll(.*)",

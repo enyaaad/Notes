@@ -36,16 +36,17 @@ export const useNotesStore = defineStore('notesStore', {
         this.loading = false
       }
     },
-    async fetchNotesByID(params:{},id:number) {
+    async fetchNotesByID(params:{},id:number | undefined) {
       this.note = null
       this.loading = true
-      try {
-        this.note = await getToStoreByID(params,id).then((res)=>res.data)
-      } catch (error) {
-        alert(error)
-      } finally {
-        this.loading = false
-      }
+      if(id)
+        try {
+          this.note = await getToStoreByID(params,id).then((res)=>res.data)
+        } catch (error) {
+          alert(error)
+        } finally {
+          this.loading = false
+        }
     }
   }
 })

@@ -38,7 +38,7 @@ export default {
         <image-with-fallback :fallback-src="fallbackSrc" :src="row.image"></image-with-fallback>
       </div>
 
-        <router-link :data="row" class="table-element__button" :to="`/notes/${row.id}`">view more</router-link>
+        <router-link class="table-element__button" :to="`/notes/${row.id}`">view more</router-link>
 
     </div>
 

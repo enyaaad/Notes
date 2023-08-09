@@ -3,14 +3,16 @@ import {onMounted} from "vue";
 import {storeToRefs} from "pinia";
 import {useNotesStore} from "@/stores/getNotesStore";
 import Loader from "@/components/UI/Loader.vue";
+import {useRoute} from "vue-router";
 
 const {note, loading, error} = storeToRefs(useNotesStore())
 const {fetchNotesByID} = useNotesStore()
 
 onMounted(()=>{
-    fetchNotesByID({},$route.params.id);
+    const routeId = useRoute().params.id
+    console.log();
+    fetchNotesByID({},Number(routeId));
 })
-
 </script>
 
 <template>
@@ -20,10 +22,13 @@ onMounted(()=>{
     <div v-if="error" class="error">{{ error }}</div>
 
     <div v-if="note" class="content">
+        {{note}}
     </div>
   </div>
 </template>
 
 <style scoped>
-
+.content{
+    color: white;
+}
 </style>
