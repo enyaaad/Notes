@@ -32,7 +32,7 @@ onMounted(():void => {
 
       Created: {{new Date(note.createdAt).toLocaleString()}}
 
-      <image-with-fallback class="note-detail__content--image" :src="note.image"></image-with-fallback>
+      <image-with-fallback class="note-detail__content--image" v-if="note.image" :src="note.image"></image-with-fallback>
     </div>
 
     <router-link class="note-detail__button ui-button" :to='{ name: RouteNames.home }'>Go Back</router-link>
